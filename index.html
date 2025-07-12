@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varshitha Polamarasetty</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Define CSS variables for colors */
+        :root {
+            /* Dark Mode Defaults */
+            --rgb-primary: 26, 32, 44; /* gray-900 */
+            --rgb-secondary: 45, 55, 72; /* gray-800 */
+            --rgb-tertiary: 26, 32, 44; /* gray-900 for cards */
+            --text-primary: #e2e8f0; /* gray-100 */
+            --text-secondary: #cbd5e0; /* gray-300 */
+            --text-tertiary: #a0aec0; /* gray-400 */
+            --accent-blue: #60a5fa; /* blue-400 */
+            --accent-purple: #a855f7; /* purple-600 */
+            --glow-color-1: #64b4ff; /* Softer blue */
+            --glow-color-2: #a855f7; /* Purple */
+            --scrollbar-thumb: #64b4ff;
+            --scrollbar-track: #1a202c;
+            --video-brightness: 0.3;
+            --particle-color: rgba(100, 200, 255, 0.7); /* Light blue for particles */
+            --particle-line-color: rgba(100, 200, 255, 0.2); /* Lighter blue for lines */
+            --hero-overlay-color: rgba(0, 0, 0, 0.1); /* Subtle dark overlay for cinematic effect */
+            --hero-overlay-animation-color: rgba(255, 255, 255, 0.05); /* Very subtle light static */
+        }
+
+        /* Light Mode Overrides */
+        html.light-mode {
+            --rgb-primary: 255, 255, 255; /* white */
+            --rgb-secondary: 247, 250, 252; /* gray-50 */
+            --rgb-tertiary: 255, 255, 255; /* white for cards */
+            --text-primary: #1a202c; /* gray-900 */
+            --text-secondary: #4a5568; /* gray-700 */
+            --text-tertiary: #718096; /* gray-600 */
+            --accent-blue: #3b82f6; /* blue-500 */
+            --accent-purple: #9333ea; /* purple-700 */
+            --glow-color-1: #3b82f6; /* Brighter blue */
+            --glow-color-2: #9333ea; /* Brighter purple */
+            --scrollbar-thumb: #3b82f6;
+            --scrollbar-track: #e2e8f0; /* Light gray track */
+            --video-brightness: 0.8; /* Lighter video in light mode */
+            --particle-color: rgba(59, 130, 246, 0.7); /* Blue for particles */
+            --particle-line-color: rgba(59, 130, 246, 0.2); /* Lighter blue for lines */
+            --hero-overlay-color: rgba(0, 0, 0, 0.05); /* Even more subtle overlay in light mode */
+            --hero-overlay-animation-color: rgba(0, 0, 0, 0.02); /* Very subtle dark static */
+        }
+
+        /* Apply CSS variables */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            background-color: transparent; /* Make body background transparent to show fixed video */
+            color: var(--text-primary);
+            transition: color 0.5s ease;
+            position: relative; /* Needed for fixed video background */
+        }
+
+        /* Custom CSS for professional glow effects, smooth scroll, and animations */
+        .glow-text {
+            text-shadow: 0 0 8px var(--glow-color-1), 0 0 15px rgba(var(--glow-color-1), 0.4);
+            transition: text-shadow 0.5s ease;
+        }
+
+        .glow-border {
+            border: 1px solid transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px; /* Adjust for desired border thickness */
+            background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2), var(--glow-color-1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+            animation: glow-animation 3s infinite alternate;
+            transition: background 0.5s ease;
+        }
+
+        @keyframes glow-animation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Card hover animation */
+        .card-animate {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.5s ease;
+        }
+
+        .card-animate:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(var(--glow-color-1), 0.2), 0 0 30px rgba(var(--glow-color-2), 0.15); /* Softer shadow */
+        }
+        
+        .card-animate:hover .glow-border::before {
+            animation: glow-pulse 1.5s infinite alternate; /* Add a pulse animation on hover */
+        }
+
+        @keyframes glow-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.02); opacity: 0.8; }
+        }
+
+        /* Video background styling - now covers the entire viewport */
+        .video-background {
+            position: fixed; /* Fixed to viewport */
+            top: 0;
+            left: 0;
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            object-fit: cover;
+            z-index: -3; /* Lowest z-index */
+            filter: brightness(var(--video-brightness));
+            transition: filter 0.5s ease;
+        }
+
+        /* Hero Overlay for cinematic effect */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--hero-overlay-color);
+            z-index: -1; /* Above video, below particles */
+            pointer-events: none; /* Allow clicks to pass through */
+            transition: background-color 0.5s ease;
+        }
+
+        .hero-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--hero-overlay-animation-color) 0px,
+                transparent 1px,
+                transparent 3px
+            );
+            animation: scanlines 8s linear infinite;
+            opacity: 0.5;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100vh; }
+        }
+
+        /* Particle Canvas Styling */
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind hero content, above video/overlay */
+        }
+
+        /* Custom scrollbar for aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            transition: background 0.5s ease;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+            transition: background 0.5s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--glow-color-2); /* Purple glow on hover */
+        }
+
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Ensure sections take full height on smaller screens if needed */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 0; /* Add vertical padding for content */
+            /* Use rgba for section backgrounds to allow video to show through */
+            background-color: rgba(var(--rgb-primary), 0.9); /* Default for primary background sections */
+            transition: background-color 0.5s ease;
+        }
+
+        /* Override for sections using secondary background */
+        #about, #skills, #experience, #certifications, #contact {
+            background-color: rgba(var(--rgb-secondary), 0.9);
+        }
+
+        /* Override for cards within sections */
+        #education .p-8, #projects .rounded-xl, #testimonials .p-8 {
+            background-color: rgba(var(--rgb-tertiary), 0.85); /* Slightly more transparent for inner cards */
+        }
+
+        /* Animations on scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95); /* Initial scale for more dramatic entrance */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower transition */
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Specific animation for hero content */
+        .hero-content.animate-on-scroll {
+            transform: translateY(50px) scale(0.8); /* More pronounced initial state */
+        }
+
+        .hero-content.animate-on-scroll.is-visible {
+            transform: translateY(0) scale(1);
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Even slower for hero */
+        }
+
+        /* Adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1rem;
+            }
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 4.5rem; /* Adjusted for increased nav height */
+                left: 0;
+                width: 100%;
+                background-color: rgba(var(--rgb-primary), 0.95); /* Use rgba for mobile menu */
+                padding: 1rem;
+                border-radius: 0 0 0.5rem 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.5s ease;
+            }
+            .navbar-menu.active {
+                display: flex;
+            }
+            .navbar-menu a {
+                padding: 0.75rem 1rem;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .navbar-menu a:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Video background for the entire page -->
+    <video autoplay muted loop class="video-background">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-digital-data-flow-1077-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Header/Navbar -->
+    <header class="fixed w-full z-50 shadow-lg rounded-b-lg transition-colors duration-500" style="background-color: rgba(var(--rgb-primary), 0.95);">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-blue-400 glow-text rounded-md p-2" style="color: var(--accent-blue);">Varshitha</a>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="focus:outline-none transition-colors duration-300" style="color: var(--accent-blue);">
+                    <i class="fas fa-moon text-2xl" id="theme-icon"></i>
+                </button>
+                <div class="md:hidden">
+                    <button id="menu-button" class="focus:outline-none" style="color: var(--text-primary);">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="navbar-menu" class="hidden md:flex space-x-8 navbar-menu">
+                <a href="#about" class="text-gray-300 hover:text-blue-400 transition duration-300 rounded-md p-2 hover:bg-gray-800" style="color: var(--text-secondary);">About</a>
+                <a href="#skills" class="text-gray-300 hover:text-blue-400 transition duration-300 rounded-md p-2 hover:bg-gray-800" style="color: var(--text-secondary);">Skills</a>
+                <a href="#projects" class="text-gray-300 hover:text-blue-400 transition duration-300 rounded-md p-2 hover:bg-gray-800" style="color: var(--text-secondary);">Projects</a>
+                <a href="#experience" class="text-gray-300 hover:text-blue-400 transition duration-300 rounded-md p-2 hover:bg-gray-800" style="color: var(--text-secondary);">Experience</a>
+                <a href="#contact" class="text-gray-300 hover:text-blue-400 transition duration-300 rounded-md p-2 hover:bg-gray-800" style="color: var(--text-secondary);">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Particles and Overlay -->
+    <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <div class="hero-overlay"></div> <!-- Cinematic overlay -->
+        <canvas id="particles-canvas"></canvas> <!-- Particle canvas -->
+        <div class="hero-content relative z-10 p-8 bg-opacity-60 rounded-xl shadow-2xl max-w-4xl mx-auto transform hover:scale-105 transition duration-500 animate-on-scroll" style="background-color: rgba(var(--rgb-primary), 0.6);">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 glow-text leading-tight" style="color: var(--text-primary);">
+                Hi, I'm <span class="text-blue-400" style="color: var(--accent-blue);">Varshitha Polamarasetty</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 glow-text" style="color: var(--text-secondary);">
+                Driven by Code | Guided by Curiosity | Building with Purpose
+            </p>
+            <a href="#projects" class="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-400 hover:to-purple-500 transition duration-300 glow-border" style="background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));">
+                Explore My Work <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-blue-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-blue);">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center md:space-x-12 animate-on-scroll">
+                <div class="md:w-1/3 mb-8 md:mb-0">
+                    <img src="https://res.cloudinary.com/dxcwpasvu/image/upload/v1752159067/Na_photo_zimwmi.jpg" alt="Varshitha Polamarasetty's Abstract Avatar" class="rounded-full w-64 h-64 object-cover mx-auto border-4 border-blue-500 shadow-lg glow-border card-animate" style="border-color: var(--accent-blue);">
+                </div>
+                <div class="md:w-2/3 text-lg leading-relaxed text-left" style="color: var(--text-secondary);">
+                    <p class="mb-4">
+                        I’m Varshitha Polamarasetty, a passionate B.Tech Computer Science student with a deep love for turning ideas into impactful digital experiences. My journey in tech began with simple curiosity, but it soon became a calling. Today, I blend logic and creativity to design, build, and solve — using code not just as a tool, but as a form of expression. From developing web applications to exploring artificial intelligence, every line I write brings me one step closer to making meaningful contributions.
+                    </p>
+                    <p class="mb-4">
+                        As a developer, I enjoy working across various domains — whether it’s crafting responsive websites, building student-focused platforms, or experimenting with chatbot integrations. I’ve worked on projects like PeerConnect and HealthConnect, which reflect my passion for both people and purpose. Being part of communities like FlexWork and the AZ Leadership Circle has helped me not just grow technically, but also lead with empathy, clarity, and intention.
+                    </p>
+                    <p>
+                        Beyond the screen, I’m someone who believes in continuous learning, community building, and staying curious. I value good conversations, creative problem-solving, and collaboration that sparks impact. My goal is simple yet bold — to use tech to build a life I’m proud of, while helping others along the way. Whether it’s a bug in the code or a bump in the journey, I face it with a smile, some chai, and the will to glow brighter every day 🌙💻
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-purple-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-purple);">Education</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Education Item 1 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate text-left animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Bachelor of Technology in Computer Science</h3>
+                    <p class="text-lg mb-1" style="color: var(--text-secondary);">Vignan's Institute of Engineering for Women</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">2023 - 2027</p>
+                    <ul class="list-disc list-inside" style="color: var(--text-secondary);">
+                        <li>Relevant Coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Web Development, Machine Learning.</li>
+                        <li>GPA: 8.55/10.0(Till 5th Semester)</li>
+                        <li>Actively participated in coding competitions and tech clubs.</li>
+                    </ul>
+                </div>
+                <!-- Education Item 2 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate text-left animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Intermediate (MPC)</h3>
+                    <p class="text-lg mb-1" style="color: var(--text-secondary);">Sri Chaitanya Junior College</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">2021 - 2023</p>
+                    <ul class="list-disc list-inside" style="color: var(--text-secondary);">
+                        <li>Focused on Mathematics, Physics, and Chemistry.</li>
+                        <li>Achieved 86% in board examinations.</li>
+                        <li>Developed strong analytical and problem-solving skills.</li>
+                    </ul>
+                </div>
+                <!-- Education Item 3: Schooling -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate text-left animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">High School Education</h3>
+                    <p class="text-lg mb-1" style="color: var(--text-secondary);">Good Shepherd English Medium School</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">2009 - 2021</p>
+                    <ul class="list-disc list-inside" style="color: var(--text-secondary);">
+                        <li>Completed secondary education with a focus on Science and Mathematics.</li>
+                        <li>Participated in various extracurricular activities including science fairs and debate clubs.</li>
+                        <li>Developed foundational analytical and communication skills.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-blue-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-blue);">Skills</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Skill Card -->
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fab fa-python text-5xl text-blue-500 mb-4" style="color: var(--accent-blue);"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Python</h3>
+                </div>
+        
+                
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fab fa-html5 text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">HTML5</h3>
+                </div>
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fab fa-css3-alt text-5xl text-blue-600 mb-4" style="color: var(--accent-blue);"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">CSS3</h3>
+                </div>
+               
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fas fa-database text-5xl text-gray-400 mb-4" style="color: var(--text-tertiary);"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">SQL (MySQL, PostgreSQL)</h3>
+                </div>
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fab fa-git-alt text-5xl text-red-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Git & GitHub</h3>
+                </div>
+                
+                <div class="p-6 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <i class="fas fa-terminal text-5xl text-gray-300 mb-4" style="color: var(--text-secondary);"></i>
+                    <h3 class="text-xl font-semibold" style="color: var(--text-primary);">Data Structures & Algorithms</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-purple-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-purple);">Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Project Card 1 -->
+                <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqomH7ajXb8FScYQffBckiSiPPFj7rSeobLg&s" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Guess the number game</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                            ## 🎮 Description
+This is a simple terminal-based number guessing game written in C.  
+The computer randomly selects a number between **1 and 100**, and the player has to guess it.
+
+### Rules:
+- You have **unlimited attempts**.
+- After each guess:
+  - If your guess is **within ±10** of the actual number → **Hot**
+  - If your guess is **more than 10 away** → **Cold**
+- The game ends when the correct number is guessed.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/GuessNumber.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                 <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV7-ZGNi1_9dv6dcNqFnwmQb9ySN9TaIqoyw&s" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Calculator</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                           This is a small but smart calculator made using C language 💡 — it can add, subtract, multiply, and divide two numbers just like that! 😄
+Perfect for beginners learning how to play with logic and switch cases in C!
+
+🔹 Features:
+➕ Addition
+
+➖ Subtraction
+
+✖️ Multiplication
+
+➗ Division (with zero check too!)
+
+🎯 Why this project?
+Because every coder starts small, and this calculator is a cute first step into the world of programming logic 🧠
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/calculator.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                 <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://cdn4.vectorstock.com/i/1000x1000/77/78/clock-timer-icon-set-vector-6767778.jpg" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Clock and Timer</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                           This beginner-friendly project is a dual-purpose time utility built using the C language, combining a live digital clock and a customizable countdown timer in a single program.
+
+✨ Features:
+Digital Clock Mode
+Continuously displays the current system time, updating every second in real-time. A great way to understand time.h and live UI handling.
+
+Countdown Timer Mode
+Lets the user enter a number of seconds and counts down to 0, refreshing the screen each second. Simple, clean, and perfect for learning timers in C.
+
+Menu-driven Interface
+User-friendly menu to switch between modes or exit the program, reinforcing control flow concepts using switch, loops, and functions.
+
+💻 Technologies Used:
+C Programming Language
+
+time.h, unistd.h, stdlib.h libraries
+
+Terminal-based UI with system("clear") for refreshing output
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/clock.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                       <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://media.wired.com/photos/641e1a1b43ffd37beea02cdf/3:2/w_2560%2Cc_limit/Best%2520Password%2520Managers%2520Gear%2520GettyImages-1408198405.png" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Password Generator</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                           This project is a simple yet powerful Random Password Generator built using the C language, designed to help users create strong and unpredictable passwords with just one click!
+
+✨ Features:
+Generates passwords of customizable length
+
+Includes a mix of:
+
+✅ Uppercase letters
+
+✅ Lowercase letters
+
+✅ Numbers
+
+✅ Special characters
+
+Ensures randomness using time() seeding
+
+Lightweight and beginner-friendly code structure
+
+💻 Technologies Used:
+C Language
+
+stdlib.h, time.h, string.h
+
+Console-based user interface
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                            
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/password.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                 <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://thumb.ac-illust.com/f6/f6145551c198e7b4791dd5ccaa38243a_t.jpeg" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Rock,Paper,Scissors</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                          This is a classic Rock, Paper, Scissors game created using C programming language. It's a simple yet enjoyable mini-project that brings together random number generation, user interaction, and conditional logic in a fun way.
+
+🔹 Features:
+User plays against the computer
+
+Choices: 🪨 Rock, 📄 Paper, ✂️ Scissors
+
+Randomized computer response
+
+Displays who won or if it’s a draw
+
+💻 Technologies Used:
+C Language
+
+stdio.h, stdlib.h, time.h
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/rockpaperscissors.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                  <!-- Project Card 2 -->
+                 <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTHBUDPCc8sX-THjXSMa3znD4j6nHLggKb1g&s" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Hangman Game</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                          The Hangman Game is a console-based word guessing game that teaches the fundamentals of:
+
+String handling
+
+User input
+
+Loops and conditionals
+
+Character arrays and checking logic
+
+🔹 Features:
+Word hidden with underscores _ _ _
+
+User guesses one letter at a time
+
+Tracks wrong attempts and displays win/loss
+
+Option to easily customize the word
+
+🛠 Technologies Used:
+C Language
+
+stdio.h, string.h, ctype.h
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">C</span>
+                        </div>
+                        <a href="https://github.com/varshitha-polamarasetty/hangman.git" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                 <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWaLmzKeFkZ46kqWj37mJTGXlFaUXBUdcRsA&s" alt="Project 1" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Flexwork Chatbot</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                            At FlexWork, I took ownership of enhancing a previously static chatbot into a dynamic, intelligent assistant that actively engages with users visiting the platform. The goal was to build a chatbot that could guide users through FlexWork’s services, answer their queries in real-time, and improve overall user experience.
+
+I worked on integrating conversational logic, identifying key user intents, and mapping them to automated responses. I also researched and documented available NLP models, prompting techniques, and AI tools suitable for future upgrades. Beyond functionality, I focused on the chatbot’s tone and flow—making sure it felt human-like, informative, and helpful. This experience deepened my skills in frontend integration, user-centric design, and chatbot architecture.
+
+The project challenged me to think beyond code—understanding real user needs, behavior patterns, and how technology can bridge that gap smoothly. It’s a project that reflects my curiosity, creativity, and readiness to learn and build with purpose.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">AI</span>
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">REACT</span>
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">FLASK</span>
+                        </div>
+                        <a href="https://flex-work.in/" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Project <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+      
+                <!-- Project Card 3 -->
+                <div class="rounded-xl shadow-lg overflow-hidden glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0lNLL9bp9GE-NhT9PLFTdC5lNsF1s9sC6Qw&s" alt="Project 3" class="w-full h-48 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Personal Portfolio Website (This one!)</h3>
+                        <p class="mb-4" style="color: var(--text-secondary);">
+                            This portfolio isn’t just a website — it’s my personal canvas, crafted to tell my story as a developer, learner, and dreamer. Built with HTML, CSS, and JavaScript, the portfolio features a techy video background, glowing neon aesthetics, smooth scroll animations, and interactive image panels to make every section feel alive and cinematic.
+
+Each part of this site—from the bouncing images to the animated flash cards—was designed to showcase not just my skills, but my growth journey. I’ve included dedicated panels for my education, technical skills, real-world projects like FlexWork and PeerConnect, achievements like AZ Community Lead Finalist, and certifications from platforms like Infosys and Scaler. It also includes a smooth navbar, animated section transitions, and responsive design for all screen sizes.
+
+More than a showcase, this portfolio is a commitment. A commitment to keep learning, building, and glowing in the world of tech. It’s my way of telling the world — “I’m here, I’m building, and I’m ready.”
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">HTML</span>
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">CSS (Tailwind)</span>
+                            <span class="text-sm px-3 py-1 rounded-full" style="background-color: rgba(var(--rgb-tertiary), 0.85); color: var(--text-secondary);">JavaScript</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:underline font-medium" style="color: var(--accent-blue);">View Code <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-blue-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-blue);">Experience</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Experience Item 1 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate text-left animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">AIML Intern</h3>
+                    <p class="text-lg mb-1" style="color: var(--text-secondary);">Flexwork</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">May 2025 - Present</p>
+                    <ul class="list-disc list-inside" style="color: var(--text-secondary);">
+                        <li>Enhanced a static chatbot into a dynamic conversational assistant to guide users across the FlexWork platform and resolve queries in real-time.</li>
+                        <li>Designed and implemented interactive conversation flows, improving user engagement and support using clean frontend logic and user-centric scripting.</li>
+                        <li>Researched and documented available AI models and prompting techniques, preparing FlexWork for future chatbot upgrades with smart responses and NLP.</li>
+                        <li>Collaborated with the team to integrate the chatbot seamlessly into the live site, while maintaining clarity, professionalism, and a user-friendly tone.</li>
+                    </ul>
+                </div>
+                <!-- Experience Item 2 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate text-left animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">Technical Manager </h3>
+                    <p class="text-lg mb-1" style="color: var(--text-secondary);">AIPT club(On campus)</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">March 2025 - Present</p>
+                    <ul class="list-disc list-inside" style="color: var(--text-secondary);">
+                        <li>Led the planning and execution of technical events, workshops, and hackathons, ensuring smooth coordination and impactful learning for all participants.</li>
+                        <li> Managed project teams and guided peers in web development, coding challenges, and tech stack selection, fostering collaboration and hands-on growth.</li>
+                        <li>Acted as a bridge between core leadership and technical teams, ensuring clarity in communication, timelines, and goals across all initiatives.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-purple-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-purple);">Achievements</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Achievement Card 1 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <i class="fas fa-trophy text-4xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">1st Place - Young Indians Future 5.0</h3>
+                    <p style="color: var(--text-secondary);">
+                        As part of the prestigious Future 5.0 initiative by Young Indians (Yi) under CII (Confederation of Indian Industry), we had the opportunity to ideate and present a solution for one of the most pressing issues of modern urban life — the rising urban temperatures and vanishing green spaces.
+
+Our team focused on the increasing threat of urban heat islands caused by concrete expansion, reduced vegetation, and poor city planning. We proposed a powerful, sustainable solution — the integration of Miyawaki forests in metro and semi-urban areas. The Miyawaki method, a Japanese afforestation technique, allows dense and diverse forests to grow 10x faster and become 30x denser than conventional plantations, making it an ideal strategy to cool down cities naturally, improve biodiversity, and enhance air quality.
+
+We pitched a community-driven model where students, local citizens, and NGOs collaborate with municipal bodies to adopt unused urban plots and transform them into mini-forests. The idea was appreciated for its feasibility, sustainability, and social impact, aligning perfectly with Yi’s vision of nurturing young minds to lead India's future responsibly.
+
+
+                    </p>
+                </div>
+                <!-- Achievement Card 2 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <i class="fas fa-award text-4xl text-blue-400 mb-4" style="color: var(--accent-blue);"></i>
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Class Representative(3*)</h3>
+                    <p style="color: var(--text-secondary);">
+                        Elected as the Class Representative for three consecutive academic terms, I served as the primary bridge between students and faculty. This role sharpened my communication, coordination, and leadership skills by consistently voicing student concerns, managing academic discussions, and ensuring smooth internal collaboration.
+
+I actively facilitated notices, event participation, and academic updates, represented my class in department-level meetings, and ensured every voice was heard during decision-making. My consistent re-election reflects the trust my peers placed in me and my commitment to creating a supportive and well-informed class environment.
+
+
+                    </p>
+                </div>
+                <!-- Achievement Card 3 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-secondary), 0.85);">
+                    <i class="fas fa-code-branch text-4xl text-green-500 mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2" style="color: var(--accent-blue);">Organised HackHers</h3>
+                    <p style="color: var(--text-secondary);">
+                         I Played a key role in organizing HackHers, a high-energy 24-hour national-level hackathon that witnessed the participation of 300+ passionate developers, designers, and innovators from across India. The event was focused on solving real-world problems in domains like AI/ML, healthcare, sustainability, and digital empowerment.
+
+From pre-event planning and outreach to live coordination during the hackathon, I contributed to every stage — curating problem statements, managing participant communication, and ensuring seamless collaboration between mentors, judges, and teams. We created a space that was not only technically challenging but also inclusive and inspiring.
+
+HackHers wasn’t just an event—it was a celebration of innovation, teamwork, and the power of students building impactful solutions under pressure. This experience strengthened my skills in leadership, technical event execution, and community-driven growth.
+
+                    </p>
+                </div>
+                 
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-blue-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-blue);">Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Certification Card 1 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS95Z4YVYbM6SAVHtlkuUqaFnyVFoQG54p-7A&s" alt="AWS Certification" class="h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">Learning Full Stack Development</h3>
+                    <p style="color: var(--text-secondary);">Infosys SpringBoard</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">Issued: April 2025</p>
+                    
+                </div>
+                <!-- Certification Card 2 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <img src="https://s3-ap-southeast-1.amazonaws.com/ghost-production-blog/2023/03/Scaler-UG_Logo-B-w.png" alt="Google Certification" class="h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">Fundamentals of Java</h3>
+                    <p style="color: var(--text-secondary);">Scaler</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">Issued: November 2024</p>
+                   
+                </div>
+                <!-- Certification Card 3 -->
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoLwBDs-8c3yWgQn2snzSdsmcgyf6R8NUznw&s" alt="Python Certification" class="h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">Tech Winter Break</h3>
+                    <p style="color: var(--text-secondary);">Google Developer Groups</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">Issued: December 2024</p>
+                    
+                </div>
+                <div class="p-8 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf-mmkzwhute3rUiTARdEyGnwRxy4MvsojyQ&s" alt="Python Certification" class="h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2" style="color: var(--accent-purple);">2 Day Ethical Hacking Workshop</h3>
+                    <p style="color: var(--text-secondary);">CyberThreya</p>
+                    <p class="mb-4" style="color: var(--text-tertiary);">Issued: September 2024</p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 transition-colors duration-500">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-blue-400 mb-12 glow-text animate-on-scroll" style="color: var(--accent-blue);">Get In Touch</h2>
+            <div class="max-w-2xl mx-auto p-10 rounded-xl shadow-lg glow-border card-animate animate-on-scroll" style="background-color: rgba(var(--rgb-tertiary), 0.85);">
+                <p class="text-lg mb-8" style="color: var(--text-secondary);">
+                    I'm always open to new opportunities, collaborations, and discussions. Feel free to reach out!
+                </p>
+                <form class="space-y-6">
+                    <div>
+                        <input type="text" placeholder="Your Name" class="w-full p-4 rounded-lg border focus:ring focus:ring-opacity-50 transition duration-300" style="background-color: rgba(var(--rgb-secondary), 0.85); color: var(--text-primary); border-color: var(--text-tertiary); focus-border-color: var(--accent-blue); focus-ring-color: var(--accent-blue);" required>
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Your Email" class="w-full p-4 rounded-lg border focus:ring focus:ring-opacity-50 transition duration-300" style="background-color: rgba(var(--rgb-secondary), 0.85); color: var(--text-primary); border-color: var(--text-tertiary); focus-border-color: var(--accent-blue); focus-ring-color: var(--accent-blue);" required>
+                    </div>
+                    <div>
+                        <textarea placeholder="Your Message" rows="6" class="w-full p-4 rounded-lg border focus:ring focus:ring-opacity-50 transition duration-300" style="background-color: rgba(var(--rgb-secondary), 0.85); color: var(--text-primary); border-color: var(--text-tertiary); focus-border-color: var(--accent-blue); focus-ring-color: var(--accent-blue);" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-400 hover:to-purple-500 transition duration-300 glow-border" style="background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));">
+                        Send Message <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+                <div class="mt-10 flex justify-center space-x-6">
+                    <a href="https://linkedin.com/in/varshitha-polamarasetty" target="_blank" class="text-4xl transition duration-300" style="color: var(--text-secondary); hover-color: var(--accent-blue);"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/varshitha-polamarasetty" target="_blank" class="text-4xl transition duration-300" style="color: var(--text-secondary); hover-color: var(--accent-blue);"><i class="fab fa-github"></i></a>
+                    <a href="mailto:varshithapolamarasetty@gmail.com" class="text-4xl transition duration-300" style="color: var(--text-secondary); hover-color: var(--accent-blue);"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm transition-colors duration-500" style="background-color: rgba(var(--rgb-primary), 0.95); color: var(--text-tertiary);">
+        <div class="container mx-auto px-6">
+            <p>&copy; Varshitha Polamarasetty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to set the theme
+        function setTheme(theme) {
+            const htmlElement = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+
+            if (theme === 'light') {
+                htmlElement.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+            // Update particle colors on theme change
+            if (typeof updateParticleColors === 'function') {
+                updateParticleColors();
+            }
+        }
+
+        // Check for saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark if no preference
+            setTheme(savedTheme);
+        });
+
+        // Theme toggle button event listener
+        const themeToggleButton = document.getElementById('theme-toggle');
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = document.documentElement.classList.contains('light-mode') ? 'light' : 'dark';
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                const navbarMenu = document.getElementById('navbar-menu');
+                if (navbarMenu.classList.contains('active')) {
+                    navbarMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const menuButton = document.getElementById('menu-button');
+        const navbarMenu = document.getElementById('navbar-menu');
+
+        menuButton.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside (optional, but good UX)
+        document.addEventListener('click', (event) => {
+            const isClickInside = navbarMenu.contains(event.target) || menuButton.contains(event.target);
+            if (!isClickInside && navbarMenu.classList.contains('active')) {
+                navbarMenu.classList.remove('active');
+            }
+        });
+
+        // Intersection Observer for scroll animations
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Unobserve after animation to prevent re-triggering
+                    // observer.unobserve(entry.target);
+                } else {
+                    // Optional: Remove class if element scrolls out of view
+                    // entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+            rootMargin: '0px 0px -50px 0px' // Adjust margin to trigger slightly earlier/later
+        });
+
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Particle Background JavaScript
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 80;
+        const maxRadius = 2;
+        const maxSpeed = 0.5;
+        const lineDistance = 100; // Max distance to draw lines between particles
+
+        // Function to get CSS variable value
+        function getCssVariable(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        // Particle constructor
+        function Particle(x, y, radius, dx, dy) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.dx = dx;
+            this.dy = dy;
+            this.color = getCssVariable('--particle-color');
+
+            this.draw = function() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            };
+
+            this.update = function() {
+                // Bounce off walls
+                if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                    this.dx = -this.dx;
+                }
+                if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                    this.dy = -this.dy;
+                }
+
+                this.x += this.dx;
+                this.y += this.dy;
+
+                this.draw();
+            };
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                const radius = Math.random() * maxRadius + 0.5;
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const dx = (Math.random() - 0.5) * maxSpeed;
+                const dy = (Math.random() - 0.5) * maxSpeed;
+                particles.push(new Particle(x, y, radius, dx, dy));
+            }
+        }
+
+        // Function to update particle colors based on current theme
+        function updateParticleColors() {
+            const newParticleColor = getCssVariable('--particle-color');
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].color = newParticleColor;
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'transparent'; // Ensure canvas background is transparent
+
+            const lineColor = getCssVariable('--particle-line-color');
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+
+                // Draw lines between nearby particles
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < lineDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = lineColor;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Handle canvas resizing
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles(); // Re-initialize particles on resize
+        }
+
+        // Initialize and start animation when window loads
+        window.onload = function() {
+            resizeCanvas(); // Set initial canvas size
+            animateParticles(); // Start the animation loop
+            window.addEventListener('resize', resizeCanvas); // Listen for window resize
+        };
+    </script>
+</body>
+</html>
